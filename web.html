@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TRÍ TUỆ NHÂN TẠO</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>TRÍ TUỆ NHÂN TẠO</h1>
+    <div id="div_1">
+        <form>
+            <h2>Chọn cách nhập dữ liệu</h2>
+            <label>
+                <span>Chọn cách truyền dữ liệu:</span>
+                <select id="type_of_data">
+                    <option value="write"> Write </option>
+                    <option value="file"> File </option>
+                </select>
+                <br>
+            </label>
+            <label>
+                <span>Chọn thuật toán:</span>
+                <select id="math">
+                    <option value="A*"> A* </option>
+                    <option value="UCS"> UCS </option>
+                    <option value="Gready"> Gready </option>
+                    <option value="Leo_doi"> Leo doi </option>
+                </select>
+                <br>
+            </label>
+            <button id="next_1" type="button">Next</button>   
+            <button type="reset"> reset</button> 
+        </form> 
+    </div>    
+    
+    <div id="div_2"> 
+        <fieldset>
+            <legend>Nhập vào dữ liệu đồ thị</legend>      
+            <form>          
+                <h3>Nhập số đỉnh, số cung</h3>
+                <p>Số đỉnh: <input type="number" id="so_dinh"></p>
+                <p>Số cung: <input type="number" id="so_cung"></p>
+                <h3>Nhập nơi bắt đầu và kết thúc</h3>
+                <p>Bắt đầu: <input type="number" id="begin"></p>
+                <p>Kết thúc: <input type="number" id="end"></p>
+                <button id="next_2" type="button">Next</button>
+                <div>
+                    <table id="table_h">
+                        <tr>
+                            <th>Đỉnh</th>
+                            <th>khoảng cách (heuristic)</th>
+                        </tr>                    
+                    </table>
+                </div>
+                <div>
+                    <table id="table_g">
+                        <tr>
+                            <th>Từ</th>
+                            <th>Đến</th>
+                            <th>Khoảng cách (g)</th>
+                        </tr>                   
+                    </table>
+                </div>
+                <button id="submit" type="button">Submit</button>   
+                <button type="reset" id="reset_2"> reset</button>     
+            </form>
+            <table id="table_result1">
+                <tr>
+                    <th>STT</th>
+                    <th>X</th>              
+                    
+                </tr>
+            </table>
+
+            <table id="table_result2">
+                <tr>
+                    <th>OPEN</th>
+                </tr>
+            </table>
+
+            <table id="table_result3">
+                <tr>
+                    <th>CLOSE</th>
+                </tr>
+            </table>
+        </fieldset>
+        
+    </div>
+
+    <div id="div_3">
+        <fieldset>
+            <legend>Upload file</legend>
+            <input type="file" id="file">
+            <br>
+            <button id="submit1" type="button">Submit</button>        
+        </fieldset>
+    </div>
+
+    <script src="display.js"></script>
+    <script src="Leo_doi.js"></script>
+</body>
+</html>
