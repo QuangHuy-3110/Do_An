@@ -7,7 +7,7 @@ div_3.style.display = 'none';
 
 let form_of_calculate = () =>{
     let math = document.getElementById("math").value;
-    if (math === "UCS"){
+    if (math === "UCS" && math === "Leo_doi"){
         table_h.style.display = 'none';
         table_g.style.display = 'block';
 
@@ -68,16 +68,6 @@ input_road.addEventListener("change", changeTableInput_Road, {once : true});
 
 
 let reset_2_click = () => {
-    table_h.innerHTML = 
-    `<tr>
-        <th>Dinh</th>
-        <th>Khoang cach (h)</th>
-    </tr>`;
-    table_g.innerHTML = 
-    `<tr>
-        <th>Tu</th>
-        <th>Den</th>
-        <th>Khoang cach</th>
-    </tr>`;
+    location.reload();
 }
 reset_2.addEventListener("click", reset_2_click);
