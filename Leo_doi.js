@@ -63,7 +63,8 @@ let graphObj = {};  // Biến để lưu đối tượng đồ thị
       const reader = new FileReader();
       reader.onload = function(e) {
         const fileContent = e.target.result;
-        
+        let print_file = document.getElementById("print_file");
+        print_file.innerText = fileContent;
         // Chuyển đổi nội dung tệp sang đối tượng
         graphObj = parseGraph(fileContent);
         console.log(graphObj);  // Hiển thị đối tượng trong console
