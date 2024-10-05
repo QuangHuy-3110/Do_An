@@ -1,16 +1,17 @@
+
 let submit = document.getElementById("submit");
 let submit1 = document.getElementById("submit1");
+let type_of_data = document.getElementById("type_of_data").value;
+ 
 
 get_data_h = () =>{
     let so_dinh = document.getElementById("so_dinh").value;
     let ds_dinh = document.getElementsByName("dinh");
     let heuristic = document.getElementsByName("khoang_cach_h");
-    let h = [];;
+    let h = {};
     for (let i=0; i<so_dinh; i++){
-        h[i] = {
-            "dinh": ds_dinh[i].value,
-            "heuristic": Number(heuristic[i].value)
-        }
+            let dinh = ds_dinh[i].value;
+            h[dinh] = Number(heuristic[i].value);
     }
     return h;
 }
@@ -25,7 +26,7 @@ get_matrix = () => {
         matrix[i] = {
             "from": from[i].value,
             "to": to[i].value,
-            "h": h.find(h => h.dinh === to[i].value).heuristic,
+            "h": h[to[i].value],
             "check": 0
         }
     }
@@ -52,71 +53,6 @@ let find_node_min = (Open_List) =>{
         }
     }
     return A;
-}
-
-Leo_doi = () => {
-    let start = document.getElementById("begin").value;
-    let end = document.getElementById("end").value;
-    let table_result1 = document.getElementById("table_result1");   
-    let table_result2 = document.getElementById("table_result2");
-    let table_result3 = document.getElementById("table_result3"); 
-    let matrix = get_matrix();
-    if (start === end){ 
-        table_result1.innerHTML += 
-        `
-        <tr>
-            <td>0</td>
-            <td>${start}</td>
-            
-            
-        </tr>
-        `
-        table_result2.innerHTML +=
-        `
-        <tr>
-            <td>(${start}, 0, ${end})</td>
-        </tr>
-        `
-        table_result3.innerHTML +=
-        `
-        <tr>
-            <td>${start}</td>
-        </tr>
-        `
-    }
-    else {
-        let i = 0;
-        let Open_List = find_open(matrix, start);
-        let A = find_node_min(Open_List);   
-        A.check = 1;
-        while ((A.to != end || A.from != end) && Open_List.length != 0){
-            for (let j = 0; j<Open_List.length; j++){
-                if (j === 0){
-                    table_result1.innerHTML += 
-                    `<tr>
-                        <td>${i+1}</td>
-                        <td>(${A.from})</td>
-                        <td>(${Open_List[j].from}, ${Open_List[j].h}, ${Open_List[j].to})</td>
-                        <td>(${A.from})</td>
-                    </tr>`
-                }
-                else {
-                    table_result1.innerHTML += 
-                    `<tr>
-                        <td></td>
-                        <td></td>
-                        <td>(${Open_List[j].from}, ${Open_List[j].h}, ${Open_List[j].to})</td>
-                        <td></td>
-                    </tr>`
-                }                    
-            }           
-
-            Open_List = find_open(matrix, A.to);
-            A = find_node_min(Open_List);
-            A.check = 1;
-            i++;
-        }
-    }
 }
 
 let graphObj = {};  // Biến để lưu đối tượng đồ thị
@@ -169,26 +105,88 @@ function parseGraph(text) {
         graph.heuristics[vertex] = parseInt(heuristic);
       } else {
         // Đọc các cạnh và trọng số
-        let [from, to, weight] = line.split(' ');
-        graph.adjacencyList.push({ from, to, weight: parseInt(weight) });
+        let [from, to] = line.split(' ');
+        graph.adjacencyList.push({ from, to, h: graph.heuristics[to], check: 0});
       }
     });
 
     return graph;
 }
 
+ Leo_doi = () => {
+  let start;
+  let end;
+  let table;
+  let type_of_data = document.getElementById("type_of_data").value;  
+  let matrix;
+  if (type_of_data === "write"){
+    table = document.getElementById("table_result1");
+    start = document.getElementById("begin").value;
+    end = document.getElementById("end").value;
+    matrix =  get_matrix();
+  }
+  else{
+    table = document.getElementById("table_result2");
+    start = graphObj.start;
+    end = graphObj.end;
+    matrix = graphObj.adjacencyList;
+  }    
+  
+  if (start === end){ 
+      table.innerHTML += 
+      `<tr>
+          <td>0</td>
+          <td>${start}</td>
+          <td>(${start}, 0, ${end})</td>
+          <td>${start}</td>
+      </tr>
+      `
+  }
+  else {
+      let i = 0;
+      let Open_List = find_open(matrix, start);
+      let A = find_node_min(Open_List);   
+      A.check = 1;
+      while ((A.to != end || A.from != end) && Open_List.length != 0){
+        console.log(Open_List);
+          for (let j = 0; j<Open_List.length; j++){
+              if (j === 0){
+                  table.innerHTML += 
+                  `<tr>
+                      <td>${i+1}</td>
+                      <td>(${A.from})</td>
+                      <td>(${Open_List[j].from}, ${Open_List[j].h}, ${Open_List[j].to})</td>
+                      <td>(${A.from})</td>
+                  </tr>`
+              }
+              else {
+                  table.innerHTML += 
+                  `<tr>
+                      <td></td>
+                      <td></td>
+                      <td>(${Open_List[j].from}, ${Open_List[j].h}, ${Open_List[j].to})</td>
+                      <td></td>
+                  </tr>`
+              }                    
+          }           
+
+          Open_List = find_open(matrix, A.to);
+          A = find_node_min(Open_List);
+          A.check = 1;
+          i++;
+      }
+  }
+}
+
 let submit1_click = () =>{
-    let file = document.getElementById('file');
-    a = parseGraph(file);
-    // console.log(file);
+    // let file = document.getElementById('file');
+    // a = parseGraph(file);
+    Leo_doi();
 }
 submit1.addEventListener("click", submit1_click);
 
 let submit_click = () =>{
-    let h = get_data_h();
-    let matrix = get_matrix();
-    console.log(h);
-    console.log(matrix);    
     Leo_doi();
 }
 submit.addEventListener("click", submit_click);
+
