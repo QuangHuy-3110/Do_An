@@ -1,15 +1,24 @@
 let reset_2 = document.getElementById("reset_2");
+let table_h = document.getElementById("table_h");
+let table_g = document.getElementById("table_g");
 
 div_2.style.display = 'block';
 div_3.style.display = 'none';
 
 let form_of_calculate = () =>{
     let math = document.getElementById("math").value;
-    if (math === "UCS" || math === "Gready"){
+    if (math === "UCS"){
         table_h.style.display = 'none';
+        table_g.style.display = 'block';
+
     }
-    else{
+    else if(math === "Gready"){
         table_h.style.display = 'block';
+        table_g.style.display = 'none';
+    }
+    else {
+        table_h.style.display = 'block';
+        table_g.style.display = 'block';
     }
 }
 addEventListener("change", form_of_calculate);
