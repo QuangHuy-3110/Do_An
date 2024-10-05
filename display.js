@@ -1,17 +1,9 @@
-
-let next_1 = document.getElementById("next_1");
-let next_2 = document.getElementById("next_2");
-let table_g = document.getElementById("table_g");
-let table_h = document.getElementById("table_h");
-let cung = document.getElementById("so_cung").value;
-let dinh = document.getElementById("so_dinh").value;
 let reset_2 = document.getElementById("reset_2");
 
 div_2.style.display = 'block';
 div_3.style.display = 'none';
 
-let next_1_click = () =>{
-    let type_data = document.getElementById("type_of_data").value;
+let form_of_calculate = () =>{
     let math = document.getElementById("math").value;
     if (math === "UCS" || math === "Gready"){
         table_h.style.display = 'none';
@@ -19,7 +11,11 @@ let next_1_click = () =>{
     else{
         table_h.style.display = 'block';
     }
+}
+addEventListener("change", form_of_calculate);
 
+let form_change = () =>{
+    let type_data = document.getElementById("type_of_data").value;
     if(type_data === "write" ){
         div_2.style.display = 'block';
         div_3.style.display = 'none';        
@@ -30,18 +26,26 @@ let next_1_click = () =>{
         div_3.style.display = 'block';
     }
 }
-next_1.addEventListener("click", next_1_click);
+addEventListener("change", form_change);
 
-let next_2_click = () =>{
-    cung = document.getElementById("so_cung").value;
-    dinh = document.getElementById("so_dinh").value;
+const input_top =  document.getElementById("so_dinh");
+function changeTableInput_Top () {
+    let table_h = document.getElementById("table_h");
+    let dinh = document.getElementById("so_dinh").value;
     for (let i = 0; i<dinh; i++){
         table_h.innerHTML +=
             `<tr>
                 <td><input type="text" name="dinh"></td>
                 <td><input type="number" name="khoang_cach_h"></td>
             </tr>`
-    }
+    }   
+}
+input_top.addEventListener("change", changeTableInput_Top, {once : true});
+
+const input_road =  document.getElementById("so_cung");
+function changeTableInput_Road () {
+    let table_g = document.getElementById("table_g");
+    let cung = document.getElementById("so_cung").value;
     for(let i = 0; i<cung; i++){
         table_g.innerHTML +=
             `<tr>
@@ -51,7 +55,8 @@ let next_2_click = () =>{
             </tr>`
     }
 }
-next_2.addEventListener("click", next_2_click);
+input_road.addEventListener("change", changeTableInput_Road, {once : true});
+
 
 let reset_2_click = () => {
     table_h.innerHTML = 
