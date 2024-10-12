@@ -114,12 +114,15 @@ function parseGraph(text) {
     return graph;
 }
 
+let path;
+
 function Leo_doi (){
   let start;
   let end;
   let table;
   let type_of_data = document.getElementById("type_of_data").value;  
   let matrix;
+  path = [];
   if (type_of_data === "write"){
     table = document.getElementById("table_result1");
     start = document.getElementById("begin").value;
@@ -141,11 +144,14 @@ function Leo_doi (){
           <td>${start}</td>
       </tr>
       `
+      path.push(start);
+      path.push(end);
   }
   else {
       let i = 0;
       let Open_List = find_open(matrix, start);
       let A = find_node_min(Open_List);   
+      path.push(A.from);
       A.check = 1;
       while ((A.to != end || A.from != end) && Open_List.length != 0){
         console.log(Open_List);
@@ -169,7 +175,7 @@ function Leo_doi (){
                   </tr>`
               }                    
           }           
-
+          path.push(A.to);
           Open_List = find_open(matrix, A.to);
           A = find_node_min(Open_List);
           A.check = 1;
@@ -185,12 +191,17 @@ let submit1_click = () =>{
   }      
 }
 submit1.addEventListener("click", submit1_click);
+submit.addEventListener("click", submit1_click);
 
-let submit_click = () =>{
+let way_goal = () => {
   let thuat_toan = document.getElementById("math").value;
   if(thuat_toan === "Leo_doi"){
-    Leo_doi();
-  } 
+    let way = document.getElementById("wayToGoal");
+    way.innerHTML = 
+    `<p>
+      <strong>Đường đi là: ${path.join(' -> ')}</strong> 
+    </p>`;
+  }    
 }
-submit.addEventListener("click", submit_click);
-
+submit1.addEventListener("click",way_goal);
+submit.addEventListener("click", way_goal);
