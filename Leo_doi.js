@@ -4,7 +4,7 @@ let submit1 = document.getElementById("submit1");
 let type_of_data = document.getElementById("type_of_data").value;
  
 
-get_data_h = () =>{
+function get_data_h (){
     let so_dinh = document.getElementById("so_dinh").value;
     let ds_dinh = document.getElementsByName("dinh");
     let heuristic = document.getElementsByName("khoang_cach_h");
@@ -16,7 +16,7 @@ get_data_h = () =>{
     return h;
 }
 
-get_matrix = () => {
+function get_matrix (){
     let so_cung = document.getElementById("so_cung").value;
     let from = document.getElementsByName("tu");
     let to = document.getElementsByName("den");
@@ -33,7 +33,7 @@ get_matrix = () => {
     return matrix;
 }
 
-let find_open = (matrix, start) => {
+function find_open (matrix, start) {
     let Open_List = [];
     let j = 0;
     for (let i = 0; i< matrix.length; i++){
@@ -45,7 +45,7 @@ let find_open = (matrix, start) => {
     return Open_List;
 }
 
-let find_node_min = (Open_List) =>{
+function find_node_min (Open_List){
     let A = Open_List[0];
     for(let i = 1; i<Open_List.length; i++){
         if (Open_List[i].h <= A.h){
@@ -114,7 +114,7 @@ function parseGraph(text) {
     return graph;
 }
 
- Leo_doi = () => {
+function Leo_doi (){
   let start;
   let end;
   let table;
@@ -132,7 +132,6 @@ function parseGraph(text) {
     end = graphObj.end;
     matrix = graphObj.adjacencyList;
   }    
-  
   if (start === end){ 
       table.innerHTML += 
       `<tr>
@@ -180,14 +179,18 @@ function parseGraph(text) {
 }
 
 let submit1_click = () =>{
-    // let file = document.getElementById('file');
-    // a = parseGraph(file);
+  let thuat_toan = document.getElementById("math").value;
+  if(thuat_toan === "Leo_doi"){
     Leo_doi();
+  }      
 }
 submit1.addEventListener("click", submit1_click);
 
 let submit_click = () =>{
+  let thuat_toan = document.getElementById("math").value;
+  if(thuat_toan === "Leo_doi"){
     Leo_doi();
+  } 
 }
 submit.addEventListener("click", submit_click);
 
