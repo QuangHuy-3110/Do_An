@@ -59,15 +59,29 @@ input_top.addEventListener("change", changeTableInput_Top, {once : true});
 const input_road =  document.getElementById("so_cung");
 function changeTableInput_Road () {
     let table_g = document.getElementById("table_g");
+    let table_not_g = document.getElementById("table_not_g");
     let cung = document.getElementById("so_cung").value;
-    for(let i = 0; i<cung; i++){
-        table_g.innerHTML +=
-            `<tr>
-                <td><input type="text" name="tu" class="form-control"></td>
-                <td><input type="text" name="den" class="form-control"></td>
-                <td><input type="number" name="khoang_cach" class="form-control"></td>
-            </tr>`
+    let math = document.getElementById("math").value;
+    if (math === "Gready" || math === "Leo_doi"){
+        for(let i = 0; i<cung; i++){
+            table_not_g.innerHTML +=
+                `<tr>
+                    <td><input type="text" name="tu" class="form-control"></td>
+                    <td><input type="text" name="den" class="form-control"></td>
+                </tr>`
+        }
     }
+    else{
+        for(let i = 0; i<cung; i++){
+            table_g.innerHTML +=
+                `<tr>
+                    <td><input type="text" name="tu" class="form-control"></td>
+                    <td><input type="text" name="den" class="form-control"></td>
+                    <td><input type="number" name="khoang_cach" class="form-control"></td>
+                </tr>`
+        }
+    }
+    
 }
 input_road.addEventListener("change", changeTableInput_Road, {once : true});
 
