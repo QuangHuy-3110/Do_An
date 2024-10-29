@@ -16,7 +16,7 @@ function get_data_h (){
     return h;
 }
 
-function get_matrix (){
+function get_matrix1 (){
     let so_cung = document.getElementById("so_cung").value;
     let from = document.getElementsByName("tu");
     let to = document.getElementsByName("den");
@@ -116,6 +116,12 @@ function parseGraph(text) {
 
 let path;
 
+function max(a, b) {
+  if(a>b) return a;
+  return b;
+}
+
+
 function Leo_doi (){
   let start;
   let end;
@@ -127,7 +133,7 @@ function Leo_doi (){
     table = document.getElementById("table_result1");
     start = document.getElementById("begin").value;
     end = document.getElementById("end").value;
-    matrix =  get_matrix();
+    matrix =  get_matrix1();
   }
   else{
     table = document.getElementById("table_result2");
@@ -140,8 +146,8 @@ function Leo_doi (){
       `<tr>
           <td>0</td>
           <td>${start}</td>
-          <td>(${start}, 0, ${end})</td>
-          <td>${start}</td>
+          <td>from: ${start}, to: ${end}, h: 0</td>
+          <td>from: ${start}, to: ${end}, h: 0</td>
       </tr>
       `
       path.push(start);
@@ -150,37 +156,43 @@ function Leo_doi (){
   else {
       let i = 0;
       let Open_List = find_open(matrix, start);
+      let Close_List = [];
       let A = find_node_min(Open_List);   
       path.push(A.from);
       A.check = 1;
+      Close_List.push(A);
+      table.innerHTML += 
+      `<tr>
+          <td>Khởi Tạo</td>
+          <td>${A.from}</td>
+          <td>from: ${Open_List[0].from},to: ${Open_List[0].to}, h:${Open_List[0].h}</td>
+          <td></td>
+      </tr>`
       while ((A.to != end || A.from != end) && Open_List.length != 0){
-        console.log(Open_List);
-          for (let j = 0; j<Open_List.length; j++){
-              if (j === 0){
-                  table.innerHTML += 
-                  `<tr>
-                      <td>${i+1}</td>
-                      <td>(${A.from})</td>
-                      <td>(${Open_List[j].from}, ${Open_List[j].h}, ${Open_List[j].to})</td>
-                      <td>(${A.from})</td>
-                  </tr>`
-              }
-              else {
-                  table.innerHTML += 
-                  `<tr>
-                      <td></td>
-                      <td></td>
-                      <td>(${Open_List[j].from}, ${Open_List[j].h}, ${Open_List[j].to})</td>
-                      <td></td>
-                  </tr>`
-              }                    
-          }           
-          path.push(A.to);
-          Open_List = find_open(matrix, A.to);
-          A = find_node_min(Open_List);
-          A.check = 1;
-          i++;
-      }
+        const openListdisplay = Open_List.map(node => 
+          `From: ${node.from}, To: ${node.to},h: ${node.h}`
+        ).join("<br>");
+
+        const closedListdisplay = Close_List.map(node => 
+          `From: ${node.from}, To: ${node.to}, h: ${node.h}`
+        ).join("<br>");
+
+        const row = `
+            <tr>
+                <td>${i}</td>
+                <td>${A.from}</td>
+                <td>${openListdisplay}</td>
+                <td>${closedListdisplay}</td>
+            </tr>
+        `;
+        table.innerHTML += row;
+        path.push(A.to);
+        Open_List = find_open(matrix, A.to);
+        A = find_node_min(Open_List);
+        A.check = 1;
+        Close_List.push(A);
+        i++;          
+    }
   }
 }
 
